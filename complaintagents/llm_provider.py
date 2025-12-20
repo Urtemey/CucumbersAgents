@@ -18,7 +18,7 @@ from langchain_community.embeddings import OllamaEmbeddings
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
-from agents.config import get_agent_config
+from complaintagents.config import get_agent_config
 
 logger = logging.getLogger(__name__)
 
@@ -175,6 +175,12 @@ class OllamaProvider:
         except Exception as e:
             logger.error(f"Failed to list models: {e}")
         return []
+    
+    def clear_cache(self):
+        """Очистить кэш моделей."""
+        self._llm_cache.clear()
+        self._chat_cache.clear()
+        logger.debug("LLM cache cleared")
 
 
 # Глобальный провайдер

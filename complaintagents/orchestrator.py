@@ -12,14 +12,14 @@ from dataclasses import dataclass, field
 
 from langchain.memory import ConversationBufferMemory
 
-from agents.base import BaseAgent, AgentResult
-from agents.llm_provider import get_ollama_provider
-from agents.transcription import TranscriptionAgent
-from agents.analyzer import AnalyzerAgent
-from agents.summarizer import SummarizerAgent
-from agents.router import RouterAgent
-from agents.antifraud import AntifraudAgent
-from agents.models import (
+from complaintagents.base import BaseAgent, AgentResult
+from complaintagents.llm_provider import get_ollama_provider
+from complaintagents.transcription import TranscriptionAgent
+from complaintagents.analyzer import AnalyzerAgent
+from complaintagents.summarizer import SummarizerAgent
+from complaintagents.router import RouterAgent
+from complaintagents.antifraud import AntifraudAgent
+from complaintagents.models import (
     VerificationLevel,
     IntakeChannel,
     TextArtifacts,
@@ -322,4 +322,10 @@ class AgentOrchestrator(BaseAgent):
             if hasattr(agent, 'get_tools'):
                 tools.extend(agent.get_tools())
         return tools
+    
+    def clear_session(self):
+        """Очистить память сессии."""
+        self.session_memory.clear()
+        for agent in self._agents:
+            agent.clear_memory()
 

@@ -14,10 +14,10 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 
-from agents.base import BaseAgent, AgentResult
-from agents.llm_provider import get_ollama_provider
-from agents.tools import get_analysis_tools
-from agents.models import (
+from complaintagents.base import BaseAgent, AgentResult
+from complaintagents.llm_provider import get_ollama_provider
+from complaintagents.tools import get_analysis_tools
+from complaintagents.models import (
     ComplaintMetrics,
     ComplaintCategory,
     SentimentLevel,
@@ -196,7 +196,7 @@ class AnalyzerAgent(BaseAgent):
     
     async def _fallback_analysis(self, text: str) -> ComplaintMetrics:
         """Fallback анализ без структурированного парсера."""
-        from agents.tools import (
+        from complaintagents.tools import (
             classify_category,
             analyze_sentiment,
             check_toxicity,

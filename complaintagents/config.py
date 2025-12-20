@@ -114,3 +114,9 @@ def set_agent_config(config: AgentSystemConfig):
     global _config
     _config = config
 
+
+def reset_agent_config():
+    """Сбросить конфигурацию (для тестов)."""
+    global _config
+    _config = None
+

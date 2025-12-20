@@ -89,7 +89,7 @@ class BaseAgent(ABC):
         verbose: bool = False,
     ):
         self.name = name or self.__class__.__name__
-        self.logger = logging.getLogger(f"agents.{self.name}")
+        self.logger = logging.getLogger(f"complaintagents.{self.name}")
         self._initialized = False
         
         # LangChain components

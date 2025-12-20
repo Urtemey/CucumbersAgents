@@ -1,8 +1,12 @@
 """
-Multi-Agent System for Complaint Processing
+CucumbersAgents - Multi-Agent System for Complaint Processing
 
 Мультиагентная система на базе LangChain + Ollama.
 Может быть выделена в отдельный репозиторий.
+
+Структура:
+- complaintagents/  - Основные агенты обработки жалоб
+- tests/            - Тесты для агентов
 
 Агенты:
 - TranscriptionAgent: ASR через Whisper (локально)
@@ -17,13 +21,47 @@ LangChain Features:
 - Tools (инструменты анализа)
 - Chains (цепочки обработки)
 - Memory (память сессии)
+
+Usage:
+    from CucumbersAgents import AgentOrchestrator
+    
+    orchestrator = AgentOrchestrator()
+    await orchestrator.initialize()
+    result = await orchestrator.process_text(text="Жалоба...")
 """
 
 __version__ = "1.0.0"
 
-from agents.base import BaseAgent, AgentResult
-from agents.llm_provider import OllamaProvider, get_ollama_provider
-from agents.tools import (
+# Re-export from complaintagents submodule
+from complaintagents import (
+    # Base
+    BaseAgent,
+    AgentResult,
+    # Agents
+    TranscriptionAgent,
+    AnalyzerAgent,
+    SummarizerAgent,
+    RouterAgent,
+    AntifraudAgent,
+    AgentOrchestrator,
+)
+
+# Config and providers - import directly for backward compatibility
+from complaintagents.config import (
+    AgentSystemConfig,
+    OllamaConfig,
+    WhisperConfig,
+    AntifraudConfig,
+    get_agent_config,
+    set_agent_config,
+)
+
+from complaintagents.llm_provider import (
+    OllamaProvider,
+    get_ollama_provider,
+)
+
+from complaintagents.tools import (
     get_analysis_tools,
     get_search_tools,
     get_all_tools,
@@ -31,13 +69,25 @@ from agents.tools import (
     classify_category,
     analyze_sentiment,
     check_toxicity,
+    calculate_urgency,
 )
-from agents.transcription import TranscriptionAgent
-from agents.analyzer import AnalyzerAgent
-from agents.summarizer import SummarizerAgent
-from agents.router import RouterAgent
-from agents.antifraud import AntifraudAgent
-from agents.orchestrator import AgentOrchestrator
+
+from complaintagents.models import (
+    # Enums
+    ComplaintCategory,
+    SentimentLevel,
+    UrgencyLevel,
+    VerificationLevel,
+    IntakeChannel,
+    CasePriority,
+    # Data models
+    TextArtifacts,
+    ComplaintMetrics,
+    TranscriptionData,
+    RoutingDecision,
+    FraudScore,
+    ProcessingResult,
+)
 
 __all__ = [
     # Version
@@ -45,23 +95,44 @@ __all__ = [
     # Base
     "BaseAgent",
     "AgentResult",
+    # Config
+    "AgentSystemConfig",
+    "OllamaConfig",
+    "WhisperConfig",
+    "AntifraudConfig",
+    "get_agent_config",
+    "set_agent_config",
     # Provider
     "OllamaProvider",
     "get_ollama_provider",
     # Tools
     "get_analysis_tools",
-    "get_search_tools", 
+    "get_search_tools",
     "get_all_tools",
     "extract_entities",
     "classify_category",
     "analyze_sentiment",
     "check_toxicity",
+    "calculate_urgency",
+    # Enums
+    "ComplaintCategory",
+    "SentimentLevel",
+    "UrgencyLevel",
+    "VerificationLevel",
+    "IntakeChannel",
+    "CasePriority",
+    # Data models
+    "TextArtifacts",
+    "ComplaintMetrics",
+    "TranscriptionData",
+    "RoutingDecision",
+    "FraudScore",
+    "ProcessingResult",
     # Agents
     "TranscriptionAgent",
-    "AnalyzerAgent", 
+    "AnalyzerAgent",
     "SummarizerAgent",
     "RouterAgent",
     "AntifraudAgent",
     "AgentOrchestrator",
 ]
-

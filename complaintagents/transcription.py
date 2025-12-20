@@ -4,9 +4,9 @@ import time
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from agents.base import BaseAgent, AgentResult
-from agents.config import get_agent_config
-from agents.models import TranscriptionData
+from complaintagents.base import BaseAgent, AgentResult
+from complaintagents.config import get_agent_config
+from complaintagents.models import TranscriptionData
 
 
 class TranscriptionAgent(BaseAgent):

@@ -1,8 +1,8 @@
-# 🤖 Multi-Agent System
+# 🤖 CucumbersAgents
 
 Мультиагентная система на базе **LangChain + Ollama** для обработки жалоб.
 
-> Может быть выделена в отдельный репозиторий
+> Следует шаблону [LangChain Templates](https://github.com/langchain-ai/langchain/tree/v0.2/templates/gemini-functions-agent)
 
 ## 🎯 Модель
 
@@ -11,25 +11,47 @@
 ## 📁 Структура
 
 ```
-agents/
-├── __init__.py       # Экспорты
-├── config.py         # Независимая конфигурация
-├── models.py         # Доменные модели
-├── base.py           # Базовый агент
-├── llm_provider.py   # Ollama провайдер
-├── tools.py          # LangChain инструменты
-├── transcription.py  # ASR (Whisper)
-├── analyzer.py       # NLU анализ (qwen3-vl:8b)
-├── summarizer.py     # Суммаризация (qwen3-vl:8b)
-├── router.py         # Маршрутизация
-├── antifraud.py      # Антифрод
-└── orchestrator.py   # Координация
+CucumbersAgents/
+├── complaintagents/       # 🤖 Core agents module
+│   ├── __init__.py        # Agent exports
+│   ├── base.py            # BaseAgent & AgentResult
+│   ├── config.py          # Configuration
+│   ├── models.py          # Domain models & enums
+│   ├── llm_provider.py    # Ollama integration
+│   ├── tools.py           # LangChain @tool functions
+│   ├── transcription.py   # Whisper ASR agent
+│   ├── analyzer.py        # NLU analysis agent (LLM)
+│   ├── summarizer.py      # Text summarization agent (LLM)
+│   ├── router.py          # Routing agent (rules)
+│   ├── antifraud.py       # Fraud detection agent (rules)
+│   ├── orchestrator.py    # Pipeline coordinator
+│   └── claude.md          # Agent-specific instructions
+│
+├── tests/                 # 🧪 Test suite
+│   ├── conftest.py        # Pytest fixtures
+│   ├── test_tools.py      # Tool tests
+│   ├── test_models.py     # Model tests
+│   └── test_agents.py     # Agent tests
+│
+├── __init__.py            # Package re-exports
+├── pyproject.toml         # Package configuration
+├── README.md              # This file
+└── claude.md              # AI instructions
+```
+
+## 🚀 Установка
+
+```bash
+cd CucumbersAgents
+pip install -e .
+# или
+poetry install
 ```
 
 ## 🚀 Использование
 
 ```python
-from agents import AgentOrchestrator
+from CucumbersAgents import AgentOrchestrator
 
 # Создание оркестратора
 orchestrator = AgentOrchestrator()
@@ -38,7 +60,6 @@ await orchestrator.initialize()
 # Обработка текста
 result = await orchestrator.process_text(
     text="Жалоба на качество обслуживания...",
-    intake_channel=IntakeChannel.WEB_FORM,
 )
 
 # Обработка аудио
@@ -54,22 +75,29 @@ if result.success:
     print(f"Neutral text: {data.text_artifacts.neutral}")
 ```
 
+## 🛠️ Отдельные агенты
+
+```python
+from CucumbersAgents import AnalyzerAgent, RouterAgent
+
+# Анализатор
+analyzer = AnalyzerAgent()
+await analyzer.initialize()
+result = await analyzer.process("Врач был груб...")
+
+# Маршрутизатор
+router = RouterAgent()
+await router.initialize()
+routing = await router.process(result.data)
+```
+
 ## 🔧 Конфигурация
 
 ```python
-from agents.config import AgentSystemConfig, set_agent_config
+from CucumbersAgents import AgentSystemConfig, set_agent_config, OllamaConfig
 
-config = AgentSystemConfig(
-    ollama=OllamaConfig(
-        base_url="http://localhost:11434",
-        model="qwen3-vl:8b",
-    ),
-    whisper=WhisperConfig(
-        model_size="base",
-        device="cpu",
-    ),
-)
-
+config = AgentSystemConfig()
+config.ollama.model = "llama3:8b"
 set_agent_config(config)
 ```
 
@@ -85,7 +113,7 @@ WHISPER_MODEL=base
 
 ### Tools
 ```python
-from agents.tools import get_analysis_tools
+from CucumbersAgents import get_analysis_tools
 
 tools = get_analysis_tools()
 # [extract_entities, classify_category, analyze_sentiment, check_toxicity, calculate_urgency]
@@ -101,26 +129,38 @@ chain = prompt | llm | parser
 
 ### Ollama Provider
 ```python
-from agents.llm_provider import get_ollama_provider
+from CucumbersAgents import get_ollama_provider
 
 provider = get_ollama_provider()
 llm = provider.get_llm(temperature=0.3)
 chat = provider.get_chat_model(format="json")
 ```
 
+## 🧪 Тестирование
+
+```bash
+pytest tests/ -v
+pytest tests/ --cov=complaintagents
+```
+
 ## 📦 Зависимости
 
 ```txt
-langchain>=0.1.16
-langchain-core>=0.1.40
-langchain-community>=0.0.29
-faster-whisper>=1.0.0
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-community>=0.0.10
+faster-whisper>=0.10.0
+pydantic>=2.0.0
 ```
 
 ## 🔒 Независимость
 
-Модуль `agents/` не зависит от `app/`:
-- Собственная конфигурация (`agents/config.py`)
-- Собственные модели (`agents/models.py`)
-- Можно использовать отдельно
+Модуль может быть выделен в отдельный репозиторий:
+- Собственная конфигурация
+- Собственные модели
+- Собственные тесты
+- pyproject.toml для установки
 
+## 📄 Лицензия
+
+MIT

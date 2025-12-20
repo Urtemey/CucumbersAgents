@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 from collections import defaultdict
 
-from agents.base import BaseAgent, AgentResult
-from agents.config import get_agent_config
-from agents.models import (
+from complaintagents.base import BaseAgent, AgentResult
+from complaintagents.config import get_agent_config
+from complaintagents.models import (
     ComplaintMetrics,
     VerificationLevel,
     FraudScore,
@@ -284,4 +284,10 @@ class AntifraudAgent(BaseAgent):
     def verify_source(self, fingerprint_hash: str):
         if fingerprint_hash in self._fingerprints:
             self._fingerprints[fingerprint_hash].verified_visits += 1
+    
+    def clear_history(self):
+        """Очистить историю (для тестов)."""
+        self._fingerprints.clear()
+        self._rate_limits.clear()
+        self._complaint_history.clear()
 
