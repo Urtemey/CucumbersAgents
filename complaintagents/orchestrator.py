@@ -12,14 +12,14 @@ from dataclasses import dataclass, field
 
 from langchain.memory import ConversationBufferMemory
 
-from complaintagents.base import BaseAgent, AgentResult
-from complaintagents.llm_provider import get_ollama_provider
-from complaintagents.transcription import TranscriptionAgent
-from complaintagents.analyzer import AnalyzerAgent
-from complaintagents.summarizer import SummarizerAgent
-from complaintagents.router import RouterAgent
-from complaintagents.antifraud import AntifraudAgent
-from complaintagents.models import (
+from .base import BaseAgent, AgentResult
+from .llm_provider import get_ollama_provider
+from .transcription import TranscriptionAgent
+from .analyzer import AnalyzerAgent
+from .summarizer import SummarizerAgent
+from .router import RouterAgent
+from .antifraud import AntifraudAgent
+from .models import (
     VerificationLevel,
     IntakeChannel,
     TextArtifacts,

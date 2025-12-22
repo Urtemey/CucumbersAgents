@@ -16,13 +16,13 @@ Complaint Processing Agents - LangChain агенты для обработки �
 - Memory (память сессии)
 """
 
-from complaintagents.base import BaseAgent, AgentResult
-from complaintagents.transcription import TranscriptionAgent
-from complaintagents.analyzer import AnalyzerAgent
-from complaintagents.summarizer import SummarizerAgent
-from complaintagents.router import RouterAgent
-from complaintagents.antifraud import AntifraudAgent
-from complaintagents.orchestrator import AgentOrchestrator
+from .base import BaseAgent, AgentResult
+from .transcription import TranscriptionAgent
+from .analyzer import AnalyzerAgent
+from .summarizer import SummarizerAgent
+from .router import RouterAgent
+from .antifraud import AntifraudAgent
+from .orchestrator import AgentOrchestrator
 
 __all__ = [
     # Base

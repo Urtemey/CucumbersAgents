@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 from collections import defaultdict
 
-from complaintagents.base import BaseAgent, AgentResult
-from complaintagents.config import get_agent_config
-from complaintagents.models import (
+from .base import BaseAgent, AgentResult
+from .config import get_agent_config
+from .models import (
     ComplaintMetrics,
     VerificationLevel,
     FraudScore,

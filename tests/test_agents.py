@@ -11,14 +11,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from complaintagents.base import BaseAgent, AgentResult
-from complaintagents.analyzer import AnalyzerAgent
-from complaintagents.summarizer import SummarizerAgent
-from complaintagents.router import RouterAgent
-from complaintagents.antifraud import AntifraudAgent
-from complaintagents.transcription import TranscriptionAgent
-from complaintagents.orchestrator import AgentOrchestrator
-from complaintagents.models import (
+from ..complaintagents.base import BaseAgent, AgentResult
+from ..complaintagents.analyzer import AnalyzerAgent
+from ..complaintagents.summarizer import SummarizerAgent
+from ..complaintagents.router import RouterAgent
+from ..complaintagents.antifraud import AntifraudAgent
+from ..complaintagents.transcription import TranscriptionAgent
+from ..complaintagents.orchestrator import AgentOrchestrator
+from ..complaintagents.models import (
     ComplaintMetrics,
     ComplaintCategory,
     SentimentLevel,

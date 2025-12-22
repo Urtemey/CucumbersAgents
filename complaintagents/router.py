@@ -3,8 +3,8 @@
 import time
 from typing import Any, Dict, List
 
-from complaintagents.base import BaseAgent, AgentResult
-from complaintagents.models import (
+from .base import BaseAgent, AgentResult
+from .models import (
     ComplaintMetrics,
     ComplaintCategory,
     UrgencyLevel,

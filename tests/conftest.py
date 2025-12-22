@@ -116,8 +116,8 @@ def temp_audio_file():
 @pytest.fixture
 def reset_config():
     """Сбросить глобальную конфигурацию перед тестом."""
-    from complaintagents.config import reset_agent_config
-    from complaintagents.llm_provider import reset_ollama_provider
+    from ..complaintagents.config import reset_agent_config
+    from ..complaintagents.llm_provider import reset_ollama_provider
     
     reset_agent_config()
     reset_ollama_provider()
@@ -129,7 +129,7 @@ def reset_config():
 @pytest.fixture
 def test_config():
     """Тестовая конфигурация."""
-    from complaintagents.config import AgentSystemConfig, OllamaConfig, WhisperConfig, AntifraudConfig
+    from ..complaintagents.config import AgentSystemConfig, OllamaConfig, WhisperConfig, AntifraudConfig
     
     return AgentSystemConfig(
         ollama=OllamaConfig(

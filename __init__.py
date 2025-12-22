@@ -33,7 +33,7 @@ Usage:
 __version__ = "1.0.0"
 
 # Re-export from complaintagents submodule
-from complaintagents import (
+from .complaintagents import (
     # Base
     BaseAgent,
     AgentResult,
@@ -47,7 +47,7 @@ from complaintagents import (
 )
 
 # Config and providers - import directly for backward compatibility
-from complaintagents.config import (
+from .complaintagents.config import (
     AgentSystemConfig,
     OllamaConfig,
     WhisperConfig,
@@ -56,12 +56,12 @@ from complaintagents.config import (
     set_agent_config,
 )
 
-from complaintagents.llm_provider import (
+from .complaintagents.llm_provider import (
     OllamaProvider,
     get_ollama_provider,
 )
 
-from complaintagents.tools import (
+from .complaintagents.tools import (
     get_analysis_tools,
     get_search_tools,
     get_all_tools,
@@ -72,7 +72,7 @@ from complaintagents.tools import (
     calculate_urgency,
 )
 
-from complaintagents.models import (
+from .complaintagents.models import (
     # Enums
     ComplaintCategory,
     SentimentLevel,

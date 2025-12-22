@@ -14,9 +14,9 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 
-from complaintagents.base import BaseAgent, AgentResult
-from complaintagents.llm_provider import get_ollama_provider
-from complaintagents.models import TextArtifacts
+from .base import BaseAgent, AgentResult
+from .llm_provider import get_ollama_provider
+from .models import TextArtifacts
 
 
 class SummarizationOutput(BaseModel):

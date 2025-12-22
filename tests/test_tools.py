@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from complaintagents.tools import (
+from ..complaintagents.tools import (
     extract_entities,
     classify_category,
     analyze_sentiment,
