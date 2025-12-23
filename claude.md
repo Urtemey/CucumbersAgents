@@ -128,7 +128,7 @@ category = classify_category.invoke("Жалоба на врача в полик�
 ```env
 OLLAMA_BASE_URL=http://localhost:11434
 LLM_MODEL=qwen3-vl:4b
-WHISPER_MODEL=base
+WHISPER_MODEL=small
 WHISPER_DEVICE=cpu
 RATE_LIMIT_PER_HOUR=5
 DEBUG=true

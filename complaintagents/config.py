@@ -7,7 +7,7 @@ Agent System Configuration
 """
 
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from dataclasses import dataclass, field
 import os
 
@@ -33,18 +33,27 @@ class OllamaConfig:
 @dataclass
 class WhisperConfig:
     """Конфигурация Whisper ASR."""
-    model_size: str = "base"
+    model_size: str = "small"  # Хороший баланс качества и скорости для русского языка
     device: str = "cpu"
     compute_type: str = "int8"
     language: str = "ru"
+    vad_filter: bool = True  # Voice Activity Detection
+    vad_parameters: Dict[str, Any] = field(default_factory=lambda: {
+        "threshold": 0.5,
+        "min_speech_duration_ms": 250,
+        "max_speech_duration_s": 30,
+        "min_silence_duration_ms": 500,
+        "speech_pad_ms": 30
+    })
     
     @classmethod
     def from_env(cls) -> "WhisperConfig":
         return cls(
-            model_size=os.getenv("WHISPER_MODEL", "base"),
+            model_size=os.getenv("WHISPER_MODEL", "small"),
             device=os.getenv("WHISPER_DEVICE", "cpu"),
             compute_type=os.getenv("WHISPER_COMPUTE_TYPE", "int8"),
             language=os.getenv("WHISPER_LANGUAGE", "ru"),
+            vad_filter=os.getenv("WHISPER_VAD_FILTER", "true").lower() == "true",
         )
 
 

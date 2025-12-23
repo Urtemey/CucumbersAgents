@@ -106,7 +106,7 @@ set_agent_config(config)
 ```env
 OLLAMA_BASE_URL=http://localhost:11434
 LLM_MODEL=qwen3-vl:4b
-WHISPER_MODEL=base
+WHISPER_MODEL=small
 ```
 
 ## 🛠️ LangChain Features

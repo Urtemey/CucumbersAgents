@@ -52,7 +52,7 @@ class AgentOrchestrator(BaseAgent):
     def __init__(
         self,
         model_name: str = None,
-        whisper_model: str = "base",
+        whisper_model: str = "small",
     ):
         super().__init__("AgentOrchestrator")
         
@@ -143,7 +143,7 @@ class AgentOrchestrator(BaseAgent):
                 intake_channel=intake_channel,
                 verification_level=verification_level,
                 source_id=source_id,
-                audio_file_path=str(audio_path),
+                audio_file_path=str(audio_path.relative_to(Path("uploads"))),
                 existing_warnings=warnings,
                 start_time=start_time,
             )
@@ -202,12 +202,37 @@ class AgentOrchestrator(BaseAgent):
         
         # 2. Анализ
         analysis_result = await self.analyzer_agent.process(original_text)
-        
+
         if not analysis_result.success:
-            return AgentResult.fail(f"Analysis failed: {analysis_result.error}")
-        
-        metrics = analysis_result.data
-        warnings.extend(analysis_result.warnings)
+            # Fallback: создаем базовые метрики для случаев, когда анализ невозможен
+            self.log_warning(f"Analysis failed ({analysis_result.error}), using fallback metrics")
+            warnings.append(f"Анализ не удался: {analysis_result.error}")
+
+            # Импортируем модели для создания базовых метрик
+            from .models import ComplaintMetrics, SentimentLevel, UrgencyLevel
+            from .config import ComplaintCategory
+
+            metrics = ComplaintMetrics(
+                sentiment=SentimentLevel.NEUTRAL,
+                sentiment_display="Нейтральная",
+                toxicity_score=0.1,
+                urgency=UrgencyLevel.MEDIUM,
+                urgency_display="Средняя",
+                category=ComplaintCategory.OTHER,
+                category_display="Прочее",
+                keywords=[],
+                mentioned_persons=[],
+                mentioned_locations=[],
+                mentioned_dates=[],
+                credibility_score=0.5,
+                severity_score=0.5,
+                contains_pii=False,
+                contains_accusations=False,
+                is_repeat_complaint=False,
+            )
+        else:
+            metrics = analysis_result.data
+            warnings.extend(analysis_result.warnings)
         
         # 3. Суммаризация
         summarization_result = await self.summarizer_agent.process(

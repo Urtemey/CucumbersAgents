@@ -143,7 +143,7 @@ class AnalyzerAgent(BaseAgent):
             
             self.log_start(f"Analyzing text ({len(text)} chars)")
             
-            if not text or len(text.strip()) < 10:
+            if not text or len(text.strip()) < 3:
                 return AgentResult.fail("Text too short for analysis")
             
             # Вызов chain

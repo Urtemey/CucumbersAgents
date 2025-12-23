@@ -31,10 +31,16 @@ class TranscriptionAgent(BaseAgent):
         self.device = device or config.whisper.device
         self.compute_type = compute_type or config.whisper.compute_type
         self.default_language = language or config.whisper.language
+        self.vad_filter = config.whisper.vad_filter
+        self.vad_parameters = config.whisper.vad_parameters
         self._model = None
-        
-        # Кастомный словарь для улучшения распознавания
-        self.custom_vocabulary = []
+
+        # Кастомный словарь для улучшения распознавания русского языка
+        self.custom_vocabulary = [
+            "жалоба", "претензия", "проблема", "сервис", "обслуживание",
+            "качество", "персонал", "администратор", "менеджер", "клиент",
+            "очередь", "время", "ожидание", "документы", "справка"
+        ]
     
     async def initialize(self) -> bool:
         """Загрузка модели Whisper."""
@@ -85,13 +91,20 @@ class TranscriptionAgent(BaseAgent):
             if not audio_path.exists():
                 return AgentResult.fail(f"Audio file not found: {audio_path}")
             
-            # Транскрипция
+            # Транскрипция с улучшенными параметрами для русского языка
             segments, info = self._model.transcribe(
                 str(audio_path),
                 language=language or self.default_language,
-                beam_size=beam_size,
-                vad_filter=vad_filter,
+                beam_size=beam_size or 5,
+                vad_filter=self.vad_filter if vad_filter else False,
+                vad_parameters=self.vad_parameters if self.vad_filter else None,
                 word_timestamps=True,
+                suppress_tokens=[-1],  # Подавление пустых токенов
+                no_speech_threshold=0.6,  # Порог для определения речи
+                condition_on_previous_text=True,  # Учитывать предыдущий текст
+                prompt_reset_on_temperature=0.5,  # Сброс промпта при высокой температуре
+                initial_prompt="Это жалоба клиента на качество обслуживания." if language == "ru" else None,
+                prefix="Жалоба: " if language == "ru" else None,
             )
             
             # Собираем результат
