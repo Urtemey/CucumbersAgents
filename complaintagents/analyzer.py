@@ -2,7 +2,7 @@
 Analyzer Agent - NLU анализ с использованием LangChain.
 
 Использует:
-- qwen3-vl:8b через Ollama
+- qwen3-vl:4b через Ollama
 - Structured Output для извлечения данных
 - Tools для анализа
 """
@@ -12,7 +12,7 @@ from typing import Any, Dict
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 from .base import BaseAgent, AgentResult
 from .llm_provider import get_ollama_provider
@@ -45,7 +45,7 @@ class AnalyzerAgent(BaseAgent):
     """
     Агент анализа жалоб с LangChain.
     
-    Использует модель: qwen3-vl:8b
+    Использует модель: qwen3-vl:4b
     
     Выполняет:
     - Классификацию по категориям
@@ -55,7 +55,7 @@ class AnalyzerAgent(BaseAgent):
     """
     
     # Модель для анализа
-    MODEL_NAME = "qwen3-vl:8b"
+    MODEL_NAME = "qwen3-vl:4b"
     
     def __init__(
         self,

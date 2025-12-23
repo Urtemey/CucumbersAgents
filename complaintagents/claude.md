@@ -7,7 +7,7 @@ This is **complaintagents** - the core LangChain agent module for processing cit
 ## Tech Stack
 
 - **LLM Framework**: LangChain with Ollama
-- **LLM Model**: qwen3-vl:8b (unified for all agents)
+- **LLM Model**: qwen3-vl:4b (unified for all agents)
 - **ASR**: faster-whisper (local)
 - **Language**: Python 3.10+
 - **Parsing**: Pydantic v1 (for LangChain compatibility)
@@ -44,7 +44,7 @@ complaintagents/
 - Includes: success, data, error, processing_time, warnings
 - Factory methods: `AgentResult.ok()`, `AgentResult.fail()`
 
-### LLM Agents (use qwen3-vl:8b)
+### LLM Agents (use qwen3-vl:4b)
 
 **AnalyzerAgent** (`analyzer.py`):
 - NLU analysis via LangChain chains
@@ -140,7 +140,7 @@ config = get_agent_config()
 
 Environment variables:
 - `OLLAMA_BASE_URL` - Ollama server URL
-- `LLM_MODEL` - LLM model name (default: qwen3-vl:8b)
+- `LLM_MODEL` - LLM model name (default: qwen3-vl:4b)
 - `WHISPER_MODEL` - Whisper model size (default: base)
 - `RATE_LIMIT_PER_HOUR` - Antifraud rate limit
 

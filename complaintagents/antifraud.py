@@ -2,7 +2,7 @@
 
 import hashlib
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import Any, Dict, List, Optional
 from collections import defaultdict
 
@@ -20,7 +20,7 @@ class SourceFingerprint:
     
     def __init__(self, hash_value: str):
         self.hash = hash_value
-        self.created_at = datetime.utcnow()
+        self.created_at = datetime.now(UTC)
         self.complaints_count = 0
         self.last_complaint_at: Optional[datetime] = None
         self.verified_visits = 0
@@ -138,7 +138,7 @@ class AntifraudAgent(BaseAgent):
             
             # Обновляем fingerprint
             fingerprint.complaints_count += 1
-            fingerprint.last_complaint_at = datetime.utcnow()
+            fingerprint.last_complaint_at = datetime.now(UTC)
             
             self._record_complaint(fingerprint_hash)
             self._add_to_history(text, metrics, fingerprint_hash)
@@ -189,7 +189,7 @@ class AntifraudAgent(BaseAgent):
         return self._fingerprints[hash_value]
     
     def _check_rate_limit(self, fingerprint_hash: str) -> bool:
-        now = datetime.utcnow()
+        now = datetime.now(UTC)
         history = self._rate_limits.get(fingerprint_hash, [])
         history = [t for t in history if now - t < timedelta(days=1)]
         self._rate_limits[fingerprint_hash] = history
@@ -204,7 +204,7 @@ class AntifraudAgent(BaseAgent):
         return True
     
     def _record_complaint(self, fingerprint_hash: str):
-        self._rate_limits[fingerprint_hash].append(datetime.utcnow())
+        self._rate_limits[fingerprint_hash].append(datetime.now(UTC))
     
     def _check_content(self, text: str) -> tuple:
         flags = []
@@ -243,7 +243,7 @@ class AntifraudAgent(BaseAgent):
     
     def _check_correlation(self, text: str, metrics: ComplaintMetrics) -> List[str]:
         flags = []
-        now = datetime.utcnow()
+        now = datetime.now(UTC)
         recent_window = timedelta(hours=1)
         recent_similar = 0
         for complaint in self._complaint_history:
@@ -258,13 +258,13 @@ class AntifraudAgent(BaseAgent):
     
     def _add_to_history(self, text: str, metrics: ComplaintMetrics, fingerprint: str):
         self._complaint_history.append({
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(UTC),
             "category": metrics.category,
             "mentioned_persons": metrics.mentioned_persons,
             "fingerprint": fingerprint,
             "text_hash": hashlib.md5(text.encode()).hexdigest(),
         })
-        cutoff = datetime.utcnow() - timedelta(hours=24)
+        cutoff = datetime.now(UTC) - timedelta(hours=24)
         self._complaint_history = [c for c in self._complaint_history if c["timestamp"] > cutoff]
     
     async def health_check(self) -> Dict[str, Any]:

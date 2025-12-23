@@ -2,7 +2,7 @@
 Summarizer Agent - Суммаризация с LangChain.
 
 Использует:
-- qwen3-vl:8b через Ollama
+- qwen3-vl:4b через Ollama
 - Chain для последовательной обработки
 - Structured Output для трёх артефактов
 """
@@ -12,7 +12,7 @@ from typing import Any, Dict
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 from .base import BaseAgent, AgentResult
 from .llm_provider import get_ollama_provider
@@ -30,7 +30,7 @@ class SummarizerAgent(BaseAgent):
     """
     Агент суммаризации с LangChain.
     
-    Использует модель: qwen3-vl:8b
+    Использует модель: qwen3-vl:4b
     
     Создает три версии текста:
     1. Нормализованная транскрипция
@@ -39,7 +39,7 @@ class SummarizerAgent(BaseAgent):
     """
     
     # Модель для суммаризации
-    MODEL_NAME = "qwen3-vl:8b"
+    MODEL_NAME = "qwen3-vl:4b"
     
     def __init__(
         self,

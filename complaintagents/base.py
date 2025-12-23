@@ -11,7 +11,7 @@ Base agent class using LangChain framework.
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, UTC
 from typing import Any, Dict, Generic, TypeVar, Optional, List
 
 from langchain_core.language_models import BaseLLM
@@ -38,7 +38,7 @@ class AgentResult(Generic[T]):
     data: Optional[T] = None
     error: Optional[str] = None
     processing_time: float = 0.0
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
     metadata: Dict[str, Any] = field(default_factory=dict)
     warnings: List[str] = field(default_factory=list)
     

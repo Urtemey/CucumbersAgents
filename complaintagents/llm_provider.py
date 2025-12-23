@@ -4,7 +4,7 @@ LLM Provider - настройка Ollama для LangChain.
 Централизованная конфигурация LLM для всех агентов.
 Поддерживает:
 - Локальный Ollama
-- Модель qwen3-vl:8b (единая для всех агентов)
+- Модель qwen3-vl:4b (единая для всех агентов)
 - Кастомные параметры генерации
 """
 
@@ -12,11 +12,9 @@ import logging
 from typing import Optional, Dict, Any, List
 from functools import lru_cache
 
-from langchain_community.llms import Ollama
-from langchain_community.chat_models import ChatOllama
-from langchain_community.embeddings import OllamaEmbeddings
-from langchain.callbacks.manager import CallbackManager
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain_ollama import OllamaLLM as Ollama
+from langchain_ollama import ChatOllama
+from langchain_ollama import OllamaEmbeddings
 
 from .config import get_agent_config
 
@@ -27,7 +25,7 @@ class OllamaProvider:
     """
     Провайдер Ollama LLM для LangChain.
     
-    Использует qwen3-vl:8b как основную модель для всех агентов.
+    Использует qwen3-vl:4b как основную модель для всех агентов.
     
     Управляет:
     - Созданием LLM инстансов
@@ -36,7 +34,7 @@ class OllamaProvider:
     """
     
     # Модель по умолчанию для всех агентов
-    DEFAULT_MODEL = "qwen3-vl:8b"
+    DEFAULT_MODEL = "qwen3-vl:4b"
     
     def __init__(
         self,
@@ -65,7 +63,7 @@ class OllamaProvider:
         Получить Ollama LLM инстанс.
         
         Args:
-            model: Название модели (по умолчанию qwen3-vl:8b)
+            model: Название модели (по умолчанию qwen3-vl:4b)
             temperature: Температура генерации
             streaming: Включить стриминг
             **kwargs: Дополнительные параметры
@@ -77,15 +75,10 @@ class OllamaProvider:
         cache_key = f"{model_name}_{temperature}_{streaming}"
         
         if cache_key not in self._llm_cache:
-            callbacks = None
-            if streaming:
-                callbacks = CallbackManager([StreamingStdOutCallbackHandler()])
-            
             self._llm_cache[cache_key] = Ollama(
                 base_url=self.base_url,
                 model=model_name,
                 temperature=temperature,
-                callback_manager=callbacks,
                 **kwargs,
             )
             
@@ -105,7 +98,7 @@ class OllamaProvider:
         Получить ChatOllama для диалоговых агентов.
         
         Args:
-            model: Название модели (по умолчанию qwen3-vl:8b)
+            model: Название модели (по умолчанию qwen3-vl:4b)
             temperature: Температура
             streaming: Стриминг
             format: Формат вывода ("json" для JSON mode)

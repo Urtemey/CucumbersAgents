@@ -7,7 +7,7 @@ This is **CucumbersAgents** - a LangChain-based multi-agent system for processin
 ## Tech Stack
 
 - **Framework**: LangChain
-- **LLM**: Ollama with qwen3-vl:8b
+- **LLM**: Ollama with qwen3-vl:4b
 - **ASR**: faster-whisper
 - **Language**: Python 3.10+
 - **Build**: Poetry / pyproject.toml
@@ -127,7 +127,7 @@ category = classify_category.invoke("Жалоба на врача в полик�
 ### Environment Variables
 ```env
 OLLAMA_BASE_URL=http://localhost:11434
-LLM_MODEL=qwen3-vl:8b
+LLM_MODEL=qwen3-vl:4b
 WHISPER_MODEL=base
 WHISPER_DEVICE=cpu
 RATE_LIMIT_PER_HOUR=5
@@ -198,12 +198,12 @@ Dev:
 - pytest >= 7.0.0
 - pytest-asyncio >= 0.21.0
 
-## Model: qwen3-vl:8b
+## Model: qwen3-vl:4b
 
 All LLM agents use the same model for consistency:
-- `AnalyzerAgent.MODEL_NAME = "qwen3-vl:8b"`
-- `SummarizerAgent.MODEL_NAME = "qwen3-vl:8b"`
-- `OllamaProvider.DEFAULT_MODEL = "qwen3-vl:8b"`
+- `AnalyzerAgent.MODEL_NAME = "qwen3-vl:4b"`
+- `SummarizerAgent.MODEL_NAME = "qwen3-vl:4b"`
+- `OllamaProvider.DEFAULT_MODEL = "qwen3-vl:4b"`
 
 To change globally:
 ```python

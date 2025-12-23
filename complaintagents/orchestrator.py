@@ -1,7 +1,7 @@
 """
 Orchestrator - Координация агентов с LangChain.
 
-Все текстовые агенты используют: qwen3-vl:8b
+Все текстовые агенты используют: qwen3-vl:4b
 """
 
 import time
@@ -36,18 +36,18 @@ class AgentOrchestrator(BaseAgent):
     """
     Оркестратор агентов с LangChain.
     
-    Все текстовые агенты используют: qwen3-vl:8b
+    Все текстовые агенты используют: qwen3-vl:4b
     
     Координирует работу агентов:
     1. Транскрипция (Whisper)
-    2. Анализ (qwen3-vl:8b)
-    3. Суммаризация (qwen3-vl:8b)
+    2. Анализ (qwen3-vl:4b)
+    3. Суммаризация (qwen3-vl:4b)
     4. Антифрод (правила + скоринг)
     5. Маршрутизация (правила)
     """
     
     # Единая модель для всех LLM агентов
-    LLM_MODEL = "qwen3-vl:8b"
+    LLM_MODEL = "qwen3-vl:4b"
     
     def __init__(
         self,
@@ -59,7 +59,7 @@ class AgentOrchestrator(BaseAgent):
         self.model_name = model_name or self.LLM_MODEL
         self.whisper_model = whisper_model
         
-        # Агенты (все LLM агенты используют qwen3-vl:8b)
+        # Агенты (все LLM агенты используют qwen3-vl:4b)
         self.transcription_agent = TranscriptionAgent(model_size=whisper_model)
         self.analyzer_agent = AnalyzerAgent(model_name=self.LLM_MODEL)
         self.summarizer_agent = SummarizerAgent(model_name=self.LLM_MODEL)

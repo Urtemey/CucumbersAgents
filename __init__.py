@@ -10,7 +10,7 @@ CucumbersAgents - Multi-Agent System for Complaint Processing
 
 Агенты:
 - TranscriptionAgent: ASR через Whisper (локально)
-- AnalyzerAgent: NLU анализ через LLM (qwen3-vl:8b)
+- AnalyzerAgent: NLU анализ через LLM (qwen3-vl:4b)
 - SummarizerAgent: Суммаризация через LLM
 - RouterAgent: Маршрутизация (правила)
 - AntifraudAgent: Скоринг достоверности

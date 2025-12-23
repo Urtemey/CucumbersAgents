@@ -134,7 +134,7 @@ def test_config():
     return AgentSystemConfig(
         ollama=OllamaConfig(
             base_url="http://localhost:11434",
-            model="qwen3-vl:8b",
+            model="qwen3-vl:4b",
             temperature=0.3,
             timeout=60,
         ),

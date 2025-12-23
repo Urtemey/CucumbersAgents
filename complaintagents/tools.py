@@ -13,7 +13,7 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 from langchain.tools import BaseTool, StructuredTool, tool
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
