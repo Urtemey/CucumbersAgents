@@ -15,7 +15,7 @@ import os
 @dataclass
 class OllamaConfig:
     """Конфигурация Ollama LLM."""
-    base_url: str = "http://localhost:11434"
+    base_url: str = "http://127.0.0.1:11434"
     model: str = "qwen3-vl:4b"
     temperature: float = 0.3
     timeout: int = 120
@@ -23,7 +23,7 @@ class OllamaConfig:
     @classmethod
     def from_env(cls) -> "OllamaConfig":
         return cls(
-            base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
+            base_url=os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434"),
             model=os.getenv("LLM_MODEL", "qwen3-vl:4b"),
             temperature=float(os.getenv("LLM_TEMPERATURE", "0.3")),
             timeout=int(os.getenv("LLM_TIMEOUT", "120")),

@@ -1,9 +1,4 @@
-"""
-Domain models for the agent system.
 
-Модели данных для мультиагентной системы.
-Независимы от основного приложения.
-"""
 
 from datetime import datetime, timedelta
 from typing import Optional, List, Dict, Any

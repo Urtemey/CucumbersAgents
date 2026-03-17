@@ -1,4 +1,3 @@
-"""Router Agent - Маршрутизация жалоб по отделам."""
 
 import time
 from typing import Any, Dict, List

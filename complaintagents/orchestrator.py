@@ -1,9 +1,3 @@
-"""
-Orchestrator - Координация агентов с LangChain.
-
-Все текстовые агенты используют: qwen3-vl:4b
-"""
-
 import time
 import logging
 from pathlib import Path

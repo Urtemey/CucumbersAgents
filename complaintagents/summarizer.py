@@ -1,12 +1,3 @@
-"""
-Summarizer Agent - Суммаризация с LangChain.
-
-Использует:
-- qwen3-vl:4b через Ollama
-- Chain для последовательной обработки
-- Structured Output для трёх артефактов
-"""
-
 import time
 from typing import Any, Dict
 

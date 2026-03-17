@@ -171,8 +171,10 @@ class AntifraudAgent(BaseAgent):
         except Exception as e:
             self.log_error("antifraud", e)
             
+            # Calculate fallback credibility based on verification level
+            fallback_credibility = verification_level.trust_weight if verification_level else 0.3
             fallback = FraudScore(
-                credibility_score=0.5,
+                credibility_score=fallback_credibility,
                 spam_probability=0.0,
                 is_suspicious=False,
             )
